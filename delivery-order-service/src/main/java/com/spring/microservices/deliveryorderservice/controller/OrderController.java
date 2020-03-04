@@ -22,16 +22,19 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN, ROLE_USER')")
     public ResponseEntity<Order> findById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(orderService.findById(id));
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN, ROLE_USER')")
     public ResponseEntity<Iterable<Order>> findAll(){
         return ResponseEntity.ok().body(orderService.findAll());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){
         orderService.delete(id);
         return ResponseEntity.ok().build();
